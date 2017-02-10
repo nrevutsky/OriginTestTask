@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="todolist not-done">
+                    <h1>Todos</h1>
+                    <input type="text" class="form-control add-todo" placeholder="Add todo">
+                    <button id="checkAll" class="btn btn-success">Mark all as done</button>
+                    {% csrf_token %}
+                    <hr>
+                    <ul id="sortable" class="list-unstyled">
+                        {% for task in tasks %}
+                            <li class="ui-state-default" task_id="{{ task.id }}">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value=""/>{{ task.task }}</label>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="todo-footer">
+                        <strong><span class="count-todos"></span></strong> Items Left
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="todolist">
+                    <h1>Already Done</h1>
+                    <ul id="done-items" class="list-unstyled">
+                        {% for task in done_tasks %}
+                            <li task_id="{{ task.id }}">{{ task.task }}
+                                <button class="remove-item btn btn-default btn-xs pull-right">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            ToDoList.init();
+        });
+    </script>
+{% endblock %}
